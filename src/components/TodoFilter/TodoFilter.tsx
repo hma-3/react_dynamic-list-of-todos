@@ -1,22 +1,28 @@
 import React from 'react';
 import { CompletedFilter } from '../../types/CompletedFilter';
+import { getNameInCapitalizedCase } from '../../utils/getNameInCapitalizedCase';
 
 interface Props {
   completedFilter: CompletedFilter;
   setCompletedFilter: React.Dispatch<React.SetStateAction<CompletedFilter>>;
-  titleFilter: string;
-  setTitleFilter: React.Dispatch<React.SetStateAction<string>>;
+  searchQuary: string;
+  setSearchQuary: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const TodoFilter: React.FC<Props> = ({
   completedFilter,
   setCompletedFilter,
-  titleFilter,
-  setTitleFilter,
+  searchQuary,
+  setSearchQuary,
 }) => {
   const handleSelectComplitedFilter = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => setCompletedFilter(event.target.value as CompletedFilter);
+  const completedFilterOptions = [
+    CompletedFilter.All,
+    CompletedFilter.Active,
+    CompletedFilter.Completed,
+  ];
 
   return (
     <form className="field has-addons">
@@ -27,9 +33,11 @@ export const TodoFilter: React.FC<Props> = ({
             value={completedFilter}
             onChange={handleSelectComplitedFilter}
           >
-            <option value={CompletedFilter.All}>All</option>
-            <option value={CompletedFilter.Active}>Active</option>
-            <option value={CompletedFilter.Completed}>Completed</option>
+            {completedFilterOptions.map(option => (
+              <option key={option} value={option}>
+                {getNameInCapitalizedCase(option)}
+              </option>
+            ))}
           </select>
         </span>
       </p>
@@ -40,24 +48,24 @@ export const TodoFilter: React.FC<Props> = ({
           type="text"
           className="input"
           placeholder="Search..."
-          value={titleFilter}
-          onChange={event => setTitleFilter(event.target.value.trimStart())}
+          value={searchQuary}
+          onChange={event => setSearchQuary(event.target.value.trimStart())}
         />
 
         <span className="icon is-left">
           <i className="fas fa-magnifying-glass" />
         </span>
 
-        <span className="icon is-right" style={{ pointerEvents: 'all' }}>
-          {!!titleFilter.length && (
+        {!!searchQuary.length && (
+          <span className="icon is-right" style={{ pointerEvents: 'all' }}>
             <button
               data-cy="clearSearchButton"
               type="button"
               className="delete"
-              onClick={() => setTitleFilter('')}
+              onClick={() => setSearchQuary('')}
             />
-          )}
-        </span>
+          </span>
+        )}
       </p>
     </form>
   );

@@ -67,9 +67,9 @@ export const TodoList: FC<Props> = ({ todos, selectedTodo, onSelectTodo }) => (
               >
                 <span className="icon">
                   <i
-                    className={cn({
-                      'far fa-eye': !isSelected,
-                      'far fa-eye-slash': isSelected,
+                    className={cn('far', {
+                      'fa-eye': !isSelected,
+                      'fa-eye-slash': isSelected,
                     })}
                   />
                 </span>

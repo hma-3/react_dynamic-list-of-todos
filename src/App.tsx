@@ -14,30 +14,28 @@ import { Loader } from './components/Loader';
 
 export const App: FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  const [titleFilter, setTitleFilter] = useState('');
+  const [searchQuary, setSearchQuary] = useState('');
   const [completedFilter, setCompletedFilter] = useState<CompletedFilter>(
     CompletedFilter.All,
-  );
-
-  const visibleTodos = useMemo(
-    () =>
-      getFilteredTodos(todos, {
-        completedFilter,
-        titleFilter,
-      }),
-    [todos, completedFilter, titleFilter],
   );
 
   useEffect(() => {
     getTodos()
       .then(setTodos)
-      // eslint-disable-next-line no-console
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading(false));
   }, []);
+
+  const visibleTodos = useMemo(
+    () =>
+      getFilteredTodos(todos, {
+        completedFilter,
+        searchQuary: searchQuary,
+      }),
+    [todos, completedFilter, searchQuary],
+  );
 
   return (
     <>
@@ -50,15 +48,15 @@ export const App: FC = () => {
               <TodoFilter
                 completedFilter={completedFilter}
                 setCompletedFilter={setCompletedFilter}
-                titleFilter={titleFilter}
-                setTitleFilter={setTitleFilter}
+                searchQuary={searchQuary}
+                setSearchQuary={setSearchQuary}
               />
             </div>
 
             <div className="block">
-              {loading && <Loader />}
-
-              {!loading && (
+              {isLoading ? (
+                <Loader />
+              ) : (
                 <TodoList
                   todos={visibleTodos}
                   selectedTodo={selectedTodo}
@@ -71,7 +69,10 @@ export const App: FC = () => {
       </div>
 
       {!!selectedTodo && (
-        <TodoModal todo={selectedTodo} setSelectedTodo={setSelectedTodo} />
+        <TodoModal
+          selectedTodo={selectedTodo}
+          setSelectedTodo={setSelectedTodo}
+        />
       )}
     </>
   );

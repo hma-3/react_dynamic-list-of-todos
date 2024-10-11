@@ -3,29 +3,29 @@ import { CompletedFilter } from '../types/CompletedFilter';
 
 interface Props {
   completedFilter: CompletedFilter;
-  titleFilter: string;
+  searchQuary: string;
 }
 
 export function getFilteredTodos(
   todos: Todo[],
-  { completedFilter, titleFilter }: Props,
+  { completedFilter, searchQuary }: Props,
 ) {
   let filteredTodos = [...todos];
 
-  filteredTodos = filteredTodos.filter(todo => {
+  filteredTodos = filteredTodos.filter(({ completed }) => {
     switch (completedFilter) {
       case CompletedFilter.Active:
-        return todo.completed === false;
+        return !completed;
       case CompletedFilter.Completed:
-        return todo.completed === true;
+        return completed;
       default:
         return true;
     }
   });
 
-  const normalizedTitleFilter = titleFilter.toLocaleLowerCase().trim();
+  const normalizedTitleFilter = searchQuary.toLocaleLowerCase().trim();
 
-  if (normalizedTitleFilter.length) {
+  if (normalizedTitleFilter) {
     filteredTodos = filteredTodos.filter(({ title }) =>
       title.toLocaleLowerCase().includes(normalizedTitleFilter),
     );

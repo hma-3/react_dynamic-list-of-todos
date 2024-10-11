@@ -7,29 +7,27 @@ import { Todo } from '../../types/Todo';
 import { Loader } from '../Loader';
 
 type Props = {
-  todo: Todo;
+  selectedTodo: Todo;
   setSelectedTodo: React.Dispatch<React.SetStateAction<Todo | null>>;
 };
 
-export const TodoModal: FC<Props> = ({ todo, setSelectedTodo }) => {
+export const TodoModal: FC<Props> = ({ selectedTodo, setSelectedTodo }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { id, title, completed, userId } = todo;
+  const { id, title, completed, userId } = selectedTodo;
 
   useEffect(() => {
     getUser(userId)
       .then(setUser)
-      // eslint-disable-next-line no-console
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading(false));
   }, [userId]);
 
   return (
     <div className="modal is-active" data-cy="modal">
       <div className="modal-background" />
 
-      {loading ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <div className="modal-card">
