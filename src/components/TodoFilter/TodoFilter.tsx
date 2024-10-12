@@ -5,17 +5,17 @@ import { getNameInCapitalizedCase } from '../../utils/getNameInCapitalizedCase';
 interface Props {
   completedFilter: CompletedFilter;
   setCompletedFilter: React.Dispatch<React.SetStateAction<CompletedFilter>>;
-  searchQuary: string;
-  setSearchQuary: React.Dispatch<React.SetStateAction<string>>;
+  searchQuery: string;
+  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const TodoFilter: React.FC<Props> = ({
   completedFilter,
   setCompletedFilter,
-  searchQuary,
-  setSearchQuary,
+  searchQuery,
+  setSearchQuery,
 }) => {
-  const handleSelectComplitedFilter = (
+  const handleSelectCompletedFilter = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => setCompletedFilter(event.target.value as CompletedFilter);
   const completedFilterOptions = [
@@ -31,7 +31,7 @@ export const TodoFilter: React.FC<Props> = ({
           <select
             data-cy="statusSelect"
             value={completedFilter}
-            onChange={handleSelectComplitedFilter}
+            onChange={handleSelectCompletedFilter}
           >
             {completedFilterOptions.map(option => (
               <option key={option} value={option}>
@@ -48,21 +48,21 @@ export const TodoFilter: React.FC<Props> = ({
           type="text"
           className="input"
           placeholder="Search..."
-          value={searchQuary}
-          onChange={event => setSearchQuary(event.target.value.trimStart())}
+          value={searchQuery}
+          onChange={event => setSearchQuery(event.target.value.trimStart())}
         />
 
         <span className="icon is-left">
           <i className="fas fa-magnifying-glass" />
         </span>
 
-        {!!searchQuary.length && (
+        {!!searchQuery.length && (
           <span className="icon is-right" style={{ pointerEvents: 'all' }}>
             <button
               data-cy="clearSearchButton"
               type="button"
               className="delete"
-              onClick={() => setSearchQuary('')}
+              onClick={() => setSearchQuery('')}
             />
           </span>
         )}

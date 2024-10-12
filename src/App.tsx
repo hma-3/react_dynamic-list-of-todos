@@ -17,7 +17,7 @@ export const App: FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
 
-  const [searchQuary, setSearchQuary] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [completedFilter, setCompletedFilter] = useState<CompletedFilter>(
     CompletedFilter.All,
   );
@@ -32,9 +32,9 @@ export const App: FC = () => {
     () =>
       getFilteredTodos(todos, {
         completedFilter,
-        searchQuary: searchQuary,
+        searchQuery: searchQuery,
       }),
-    [todos, completedFilter, searchQuary],
+    [todos, completedFilter, searchQuery],
   );
 
   return (
@@ -48,8 +48,8 @@ export const App: FC = () => {
               <TodoFilter
                 completedFilter={completedFilter}
                 setCompletedFilter={setCompletedFilter}
-                searchQuary={searchQuary}
-                setSearchQuary={setSearchQuary}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
               />
             </div>
 

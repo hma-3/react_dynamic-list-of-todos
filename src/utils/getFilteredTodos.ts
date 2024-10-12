@@ -3,12 +3,12 @@ import { CompletedFilter } from '../types/CompletedFilter';
 
 interface Props {
   completedFilter: CompletedFilter;
-  searchQuary: string;
+  searchQuery: string;
 }
 
 export function getFilteredTodos(
   todos: Todo[],
-  { completedFilter, searchQuary }: Props,
+  { completedFilter, searchQuery }: Props,
 ) {
   let filteredTodos = [...todos];
 
@@ -23,7 +23,7 @@ export function getFilteredTodos(
     }
   });
 
-  const normalizedTitleFilter = searchQuary.toLocaleLowerCase().trim();
+  const normalizedTitleFilter = searchQuery.toLocaleLowerCase().trim();
 
   if (normalizedTitleFilter) {
     filteredTodos = filteredTodos.filter(({ title }) =>
